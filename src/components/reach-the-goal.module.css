@@ -9,7 +9,9 @@
 	padding: 10%;
 }
 .title{
-	color:red;
+	animation: colorFlip;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
 	font-size: 100px;
 }
 .text{
@@ -21,4 +23,18 @@
 	background-color: red;
 	color:white;
 	font-size: 20px;
+}
+@keyframes colorFlip {
+  0% {
+    color: red;
+  }
+  30% {
+    color: yellow;
+  }
+  60% {
+    color: blue;
+  }
+  90% {
+    color: red;
+  }
 }
