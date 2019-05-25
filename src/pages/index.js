@@ -23,7 +23,11 @@ class IndexPage extends React.Component {
           goal: 0,
           die1: 0,
           die2: 0,
-          turnCount:0
+          turnCount:0,
+          gameEnd:false,
+          winner:null,
+          player1Wins:0,
+          player2Wins:0
         };
         this.startGame = this.startGame.bind(this);
         this.setPlayerName = this.setPlayerName.bind(this);
@@ -35,6 +39,8 @@ class IndexPage extends React.Component {
         this.setCurrentPlayer = this.setCurrentPlayer.bind(this);
         this.calcPlayerScore = this.calcPlayerScore.bind(this);
         this.checkWin = this.checkWin.bind(this);
+        this.gameEnd = this.gameEnd.bind(this);
+        this.rematch = this.rematch.bind(this);
     }
 
     startGame(){
@@ -80,12 +86,7 @@ class IndexPage extends React.Component {
 
       } else {
         setGoal = Number(setGoal);
-        // console.log("GOAL IS SET TO " + setGoal);
-        // $('#goal').text(`THE GOAL:${setGoal}`);
         this.setState({goal:setGoal})
-         // game.currentGoal = setGoal;
-        // const dice = document.querySelector('#diceHolder');
-        // dice.addEventListener('click', rollDice)
       }
     }
     setPlayerName(){
@@ -123,7 +124,7 @@ class IndexPage extends React.Component {
               prevState.turnCount++
               return prevState
             }, ()=>{
-              this.calcPlayerScore(player1, player1Rolls);
+              this.calcPlayerScore(this.state.player1, this.state.player1Rolls);
             })
         } else {
           this.setState(prevState=> {
@@ -135,7 +136,7 @@ class IndexPage extends React.Component {
               prevState.turnCount++
               return prevState
             }, ()=>{
-              this.calcPlayerScore(player2, player2Rolls);
+              this.calcPlayerScore(this.state.player2, this.state.player2Rolls);
             })
         }
     }
@@ -163,11 +164,16 @@ class IndexPage extends React.Component {
     }
     calcPlayerScore(player, playerRolls){
       // const currentRolls = player1Rolls;
-      const {player1, player2, player1Score, player2Score} = this.state
+      let {
+        player1, 
+        player2, 
+        player1Score, 
+        player2Score} = this.state
       let total = 0;
       for (let i = 0; i < playerRolls.length; i++) {
         total += playerRolls[i];
       }
+      console.log(`Current total: ${total}`)
       if(player === player1){
           console.log("HERE1")
 
@@ -175,39 +181,95 @@ class IndexPage extends React.Component {
           prevState.player1Score+=total
           return prevState;
         }, ()=> {
-          console.log("HERE")
-          this.checkWin(player1, player1Score)
+          console.log("after calc score p1", this.state)
+         return this.checkWin(this.state.player1, this.state.player1Score)
         })
       }
-      if(player === player2){
+     else{
           console.log("HERE1")
 
         this.setState(prevState=> {
           prevState.player2Score+=total
           return prevState;
         }, ()=> {
-          console.log("HERE")
+          console.log("after calc score p2", this.state)
 
-          this.checkWin(player2, player2Score)
+
+          return this.checkWin(this.state.player2, this.state.player2Score)
         })
       }
     }
     checkWin(player, playerScore){
-
+      console.log(`checkWin parameters player${player} playerScore${playerScore}` )
       const {goal} = this.state
-      console.log(`CheckingWin ${playerScore}>=${goal}?`)
+      console.log(`CheckingWin ${player}:${playerScore}>=${goal}?`)
 
       if (playerScore >= goal) {
       console.log(`${player} wins`)
-
-        const playAgain = confirm(`${player} wins! play again?`);
+     
+      
+          
+         setTimeout(this.gameEnd(player), 1400);
       }
+    }
+    gameEnd(player){
+      window.alert(`${player} wins! play again?`) 
+      this.setState({gameEnd: true, winner: player})
+    }
+    rematch(){
+      const resetGoal = window.confirm("would you like to reset the goal?")
+
+      const {winner, player1} = this.state
+      if(player1 === winner){
+        this.setState(prevState =>{
+          if(resetGoal){
+            this.whereIsGoal()
+          }
+          prevState.player1Wins++
+          prevState.player1Rolls = []
+          prevState.player2Rolls = []
+          prevState.player1Score = 0
+          prevState.player2Score = 0
+          prevState.currentPlayer = null
+          prevState.die1 = 0
+          prevState.die2 = 0
+          prevState.turnCount = 0
+          prevState.gameEnd = false
+          prevState.winner = null
+          return prevState
+        })
+      }
+      else{
+        this.setState(prevState =>{
+          if(resetGoal){
+            this.whereIsGoal()
+          }
+
+          prevState.player2Wins++
+          prevState.player1Rolls = []
+          prevState.player2Rolls = []
+          prevState.player1Score = 0
+          prevState.player2Score = 0
+          prevState.currentPlayer = null
+          prevState.die1 = 0
+          prevState.die2 = 0
+          prevState.turnCount = 0
+          prevState.gameEnd = false
+          prevState.winner = null
+          return prevState
+        })
+      }
+    }
+    restart(){
+      window.location.reload()
     }
     render() {
       const {
         startGame,
         handleStartGame,
-        rollDice
+        rollDice,
+        rematch,
+        restart
       } = this
       const {
         toggleGameboard, 
@@ -220,7 +282,10 @@ class IndexPage extends React.Component {
         player2Rolls,
         currentPlayer,
         player1Score,
-        player2Score
+        player2Score, 
+        gameEnd,
+        player1Wins,
+        player2Wins
         
       } = this.state 
 
@@ -229,6 +294,9 @@ class IndexPage extends React.Component {
         <div>
         { toggleGameboard === true ? 
           <GameBoard 
+            player2Wins = {player2Wins}
+            player1Wins = {player1Wins}
+            gameEnd = {gameEnd}
             player1 = {player1} 
             player2 = {player2}
             goal = {goal}
@@ -240,6 +308,8 @@ class IndexPage extends React.Component {
             currentPlayer = {currentPlayer}
             player1Score={player1Score}
             player2Score={player2Score}
+            rematch = {rematch}
+            restart = {restart}
           /> :
           <ReachTheGoal 
             handleClick={handleStartGame}

@@ -1,11 +1,11 @@
 .background{
 	background: darkblue;
-	padding-top: 1%;
+	/*padding-top: 1%; */
 	height: 100vh;
 	width: 100vw;
 	display: flex;
 	flex-direction: column;
-	/*justify-content: space-around;*/
+	justify-content: space-around;
 }
 .scoreBoard{
 	/*border: solid orange 7px;*/
@@ -79,6 +79,8 @@
 	/*position: absolute;*/
 	/*bottom: 10px;*/
 }
-.active{
-	border: solid 15px green;
+.restartBox{
+	display: flex;
+	justify-content: space-around;
+	width: 100vw;
 }

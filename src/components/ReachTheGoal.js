@@ -1,19 +1,10 @@
 import React from "react"
 import reachGoalStyles from "./reach-the-goal.module.css"
+import Button from "./Button"
 
 
 
 
-const StartButton = props =>{
-      const {button} = reachGoalStyles;
-      const {children, handleClick} = props;
-      console.log("Button Props", props)
-
-
-  return (
-    <div className={button} onClick={handleClick}>{children}</div>
-    )
-}
 
     
     const ReachTheGoal= props =>{
@@ -30,9 +21,11 @@ const StartButton = props =>{
        After you submit the prompt, two players with starting score at zero will take turns rolling the dice and add the total to their current score. 
        When the score of the respected player is greater than or equal to the goal chosen at the start of the game, then that player wins.
         Click the start button to begin!</p>
-        <StartButton handleClick = {handleClick}>
+        <Button
+        handleClick = {handleClick}
+        >
         Press to start
-        </StartButton>
+        </Button>
         </div>
       )
     }

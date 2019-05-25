@@ -19,11 +19,7 @@
 	font-size: 35px;
 	line-height: 1.5em;
 }
-.button{
-	background-color: red;
-	color:white;
-	font-size: 20px;
-}
+
 @keyframes colorFlip {
   0% {
     color: red;

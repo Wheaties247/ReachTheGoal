@@ -1,6 +1,6 @@
 import React from "react"
 import gameBoardStyles from "./gameboard.module.css"
-
+import Button from './Button'
 const { 
 	background,
  	scoreBoard,
@@ -11,16 +11,24 @@ const {
  	container,
  	die,
  	diceText,
- 	active 
+ 	restartBox
  } = gameBoardStyles
 
 const ScoreBoard = props => {
-	const { children, player1, player2, goal } = props
+	const { 
+		children, 
+		player1, 
+		player2, 
+		goal,
+		player2Wins,
+        player1Wins
+         } = props
 	console.log(props)
 	return (
 		<div className={scoreBoard}>
 			<div className={player}>
 				<h3>{player1}'s Past Wins</h3>
+				<h2>{player1Wins}</h2>
 			</div>
 			<div className={goalBox}>
 				<h4>The Goal</h4>
@@ -28,6 +36,7 @@ const ScoreBoard = props => {
 			</div>
 			<div className={player}>
 				<h3>{player2}'s Past Wins</h3>
+				<h2>{player2Wins}</h2>
 			</div>
 		</div>
 	)
@@ -53,7 +62,7 @@ const Dice = props => {
 }
 const PlayerInfo = props =>{
 	const {playerRolls, player, currentPlayer, score}= props
-	const indiactor = player === currentPlayer? active: null
+	const indiactor = player === currentPlayer? "active": null
 	return(
 		<div className= {indiactor}>
 			<div className={playerInfoBox}>
@@ -82,7 +91,12 @@ const GameBoard = props => {
         currentPlayer, 
         active,
         player1Score,
-        player2Score
+        player2Score,
+        gameEnd,
+        rematch,
+        restart,
+        player1Wins,
+        player2Wins
 	} = props
 	return (
 		<div className={background}>
@@ -90,6 +104,8 @@ const GameBoard = props => {
 				player1={player1} 
 				player2={player2} 
 				goal={goal} 
+				player2Wins = {player2Wins}
+            	player1Wins = {player1Wins}
 			/>
 			<div className = {container}>
 				<PlayerInfo
@@ -109,8 +125,20 @@ const GameBoard = props => {
             		playerRolls= {player2Rolls}
             		currentPlayer = {currentPlayer}
 				/>
+				
 			</div>
-		
+			{gameEnd? <div className={restartBox}>
+					<Button 
+					handleClick={rematch}
+					>
+					Rematch
+					</Button>
+					<Button 
+					handleClick={restart}
+					>
+					Restart
+					</Button>	
+			</div>: null}
 		</div>
 	)
 }
