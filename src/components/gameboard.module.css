@@ -1,0 +1,73 @@
+.background{
+	background: darkblue;
+	padding-top: 1%;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
+	/*justify-content: space-around;*/
+}
+.scoreBoard{
+	/*border: solid orange 7px;*/
+	height: 10vh;
+	width: 100vw;
+	display: flex;
+	justify-content: space-between;
+}
+.player{
+	background: purple;
+	height: 100%;
+	width: 25%;
+	margin-left: 5%;
+	margin-right: 5%;
+	font-size: 40px;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 15px;
+}
+.goalBox{
+	border-radius: 15px;
+	background: orange;
+	height: 100%;
+	width: 25%;
+	display: flex;]
+	padding: 5%;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.diceBox{
+	background-color: gray;
+	height: 250px;
+	width: 250px;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.playerInfoBox{
+	background-color: green;
+	height: 400px;
+	width: 200px;
+	border-radius: 10px;
+
+}
+.die{
+	background-color: white;
+	height: 50px;
+	width: 50px;
+	border-radius: 5px;
+	margin: 5%;
+	font-size: 25px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.container{
+	margin: 1%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
